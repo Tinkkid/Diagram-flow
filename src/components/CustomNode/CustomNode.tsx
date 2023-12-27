@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Handle, Position } from 'reactflow';
 import { RectangleInsideNode, WrapperCustomNode } from './CustomNode.styled';
 import CustomButton from '../CustomButton/CustomButton';
