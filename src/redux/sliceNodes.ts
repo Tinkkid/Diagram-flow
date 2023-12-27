@@ -10,6 +10,7 @@ interface Node {
   id: string;
   type: string;
   position: Position;
+  zIndex: number;
 }
 
 interface Edge {
@@ -33,7 +34,7 @@ interface NodeState {
 }
 
 const initialNodes: Node[] = [
-  { id: '1', type: 'CustomNode', position: { x: 50, y: 50 } },
+  { id: '1', type: 'CustomNode', position: { x: 50, y: 50 }, zIndex: 1000 },
 ];
 
 const initialState: NodeState = {
@@ -65,12 +66,13 @@ export const nodeSlice = createSlice({
       if (nextNodeIndex === -1) {
         const lastNode = state.nodes[state.nodes.length - 1];
         const x = lastNode.position.x + 150;
-        const y = lastNode.position.y + 300;
+        const y = lastNode.position.y + 200;
 
         const newNode: Node = {
           id: nextNodeId,
           type: 'CustomNode',
-          position: { x, y },     
+          position: { x, y },
+          zIndex: 1000 - Number(nodeId),
         };
 
         state.nodes.push(newNode);

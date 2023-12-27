@@ -2,12 +2,16 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNodeId } from 'reactflow';
 import { useSelector } from 'react-redux';
 
-import { Button, VariantsList } from './CustomButton.styled';
+import { Button, VariantsList, ButtonText } from './CustomButton.styled';
 import {
   selectSelectedVariants,
   selectVariants,
 } from '../../redux/selectorsNodes';
 import CustomCheckBox from '../CustomCheckBox/CustomCheckBox';
+import { ArrowDown } from '../Icons/ArrowDown';
+import { ArrowUp } from '../Icons/ArrowUp';
+
+
 interface CustomButtonProps {
   isOpen: boolean;
   handleToggle: () => void;
@@ -55,7 +59,10 @@ const CustomButton: FC<CustomButtonProps> = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(!isOpen)}>{textBtn}</Button>
+      <Button onClick={() => setIsOpen(!isOpen)} isOpen={isOpen}>
+        <ButtonText>{textBtn}</ButtonText>
+        {!isOpen ? <ArrowDown /> : <ArrowUp />}
+      </Button>
       {isOpen && (
         <VariantsList>
           {variants &&

@@ -40,8 +40,7 @@ const CustomCheckBox: FC<CustomCheckBoxProps> = ({
   return (
     <VariantItem>
       <Label >
-        <CheckBox
-         
+        <CheckBox         
           type="checkbox"
           value={value}
           onChange={handleChange}

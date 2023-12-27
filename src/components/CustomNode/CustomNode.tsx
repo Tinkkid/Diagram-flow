@@ -11,6 +11,7 @@ export const CustomNode = () => {
   const nodeId = useNodeId();
   const [isOpen, setIsOpen] = useState(false)
   const nodes = useSelector(selectNodes);
+  // const firstEdgeColor = { backgroundColor: '#ADB5BD' };
   const firstNode = nodes[0].id === nodeId;
 
    const handleToggle = () => {
@@ -34,8 +35,9 @@ export const CustomNode = () => {
       <Handle
         type="source"
         position={firstNode ? Position.Bottom : Position.Right}
-        style={{ backgroundColor: firstNode ? 'transparent' : '#ADB5BD' }}
+        style={{ backgroundColor: firstNode ? 'transparent' : '#ADB5BD', top: firstNode ? 0 : 110 }}
       />
+
     </>
   );
 }

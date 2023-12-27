@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const WrapperCustomNode = styled.div`
+position: relative;
   width: 233px;
   height: 117px;
   border-radius: 4px;

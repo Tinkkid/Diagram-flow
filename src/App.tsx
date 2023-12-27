@@ -1,6 +1,7 @@
 import './App.css'
 import ReactFlow, { Controls, Background, NodeTypes } from 'reactflow';
 import 'reactflow/dist/style.css';
+import './index.css'; 
 
 import { CustomNode } from './components/CustomNode/CustomNode.jsx'
 import { useSelector } from 'react-redux';
