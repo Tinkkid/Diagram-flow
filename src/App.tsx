@@ -1,22 +1,22 @@
 import './App.css'
-import ReactFlow, { Controls, Background } from 'reactflow';
+import ReactFlow, { Controls, Background, NodeTypes } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-import CustomNode from './components/CustomNode/CustomNode.jsx'
-
+import { CustomNode } from './components/CustomNode/CustomNode.jsx'
+import { useSelector } from 'react-redux';
+import { selectEdges, selectNodes } from './redux/selectorsNodes.js';
+import { useMemo } from 'react';
 
 function App() {
 
-  const initialNodes = [
-  { id: '1', type: 'customNode', position: { x: 0, y: 0 }, data: { label: 'Варіант' } },
-];
-
-const nodeTypes = { customNode: CustomNode };
+ const nodes = useSelector(selectNodes);
+ const edges = useSelector(selectEdges);
+ const nodeTypes: NodeTypes = useMemo(() => ({ CustomNode }), []);
 
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlow nodes={initialNodes} nodeTypes={nodeTypes}>
+      <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes}>
         <Controls />
         <Background color="#F9FAFF" />
      </ReactFlow>

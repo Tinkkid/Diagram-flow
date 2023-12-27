@@ -10,7 +10,6 @@ interface Node {
   id: string;
   type: string;
   position: Position;
-  zindex: number;
 }
 
 interface Edge {
@@ -34,14 +33,19 @@ interface NodeState {
 }
 
 const initialNodes: Node[] = [
-  { id: '1', type: 'Node', position: { x: 50, y: 50 }, zindex: 1000 },
+  { id: '1', type: 'CustomNode', position: { x: 50, y: 50 } },
 ];
 
 const initialState: NodeState = {
   nodes: initialNodes,
   edges: [],
   selectedVariants: [],
-  variants: [[1, 2, 3, 4, 5, 6]],
+  variants: [
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+  ],
 };
 
 export const nodeSlice = createSlice({
@@ -60,14 +64,13 @@ export const nodeSlice = createSlice({
 
       if (nextNodeIndex === -1) {
         const lastNode = state.nodes[state.nodes.length - 1];
-        const x = lastNode.position.x + 70;
+        const x = lastNode.position.x + 150;
         const y = lastNode.position.y + 300;
 
         const newNode: Node = {
           id: nextNodeId,
-          type: 'Node',
-          position: { x, y },
-          zindex: 1000 - Number(nodeId),
+          type: 'CustomNode',
+          position: { x, y },     
         };
 
         state.nodes.push(newNode);

@@ -19,10 +19,3 @@ export const VariantsList = styled.ul`
   z-index: 100;
 `;
 
-export const VariantItem = styled.li`
-  min-height: 40px;
-  border: 1px solid #eaf2ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;

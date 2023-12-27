@@ -1,19 +1,76 @@
-import { FC } from 'react';
-import { Button, VariantItem, VariantsList } from './CustomButton.styled';
+import React, { FC, useEffect, useState } from 'react';
+import { useNodeId } from 'reactflow';
+import { useSelector } from 'react-redux';
 
+import { Button, VariantsList } from './CustomButton.styled';
+import {
+  selectSelectedVariants,
+  selectVariants,
+} from '../../redux/selectorsNodes';
+import CustomCheckBox from '../CustomCheckBox/CustomCheckBox';
 interface CustomButtonProps {
   isOpen: boolean;
   handleToggle: () => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+interface Variant {
+  nodeId: string;
+  value: number;
 }
 
-const CustomButton: FC<CustomButtonProps> = ({ isOpen, handleToggle }) => {
+const CustomButton: FC<CustomButtonProps> = ({ isOpen, setIsOpen }) => {
+  const nodeId = useNodeId();
+  const [textSelectedVariant, setTextSelectedVariant] =
+    useState<string>('Вибрати значення');
+  const [textBtn, setTextBtn] = useState<string>('Вибрати значення');
+  const selectedVariants = useSelector(selectSelectedVariants);
+  const variants: number[] = useSelector(selectVariants)[Number(nodeId) - 1];
+  const valueSelectedVariants = '';
+
+  useEffect(() => {
+    const lastNodeIndex = selectedVariants.findIndex(
+      (node: Variant) => node.nodeId === nodeId
+    );
+    const lastVariant = selectedVariants.slice(0, lastNodeIndex + 1);
+    const valueSelectedVariants = lastVariant
+      .map((item: Variant) => item.value)
+      .join('-');
+
+    if (selectedVariants.length === 0) {
+      setTextBtn('Вибрати значення');
+    } else {
+      setTextBtn(valueSelectedVariants ? `Варіант ${valueSelectedVariants}` : 'Вибрати значення');
+    }
+  }, [selectedVariants, nodeId]);
+
+  useEffect(() => {
+    if (valueSelectedVariants) {
+      setTextBtn(
+        textSelectedVariant === 'Вибрати значення'
+          ? textSelectedVariant
+          : `Варіант ${valueSelectedVariants}`
+      );
+    }
+  }, [valueSelectedVariants, textSelectedVariant]);
+
   return (
     <>
-      <Button onClick={handleToggle}>Варіант</Button>
+      <Button onClick={() => setIsOpen(!isOpen)}>{textBtn}</Button>
       {isOpen && (
         <VariantsList>
-          <VariantItem>Варіант 1</VariantItem>
-          <VariantItem>Варіант 2</VariantItem>
+          {variants &&
+            variants.map((item: number) => {
+              return (
+                <CustomCheckBox
+                  key={item}
+                  value={item}
+                  textSelectedVariant={textSelectedVariant}
+                  setTextSelectedVariant={setTextSelectedVariant}
+                  setIsOpen={setIsOpen}
+                  nodeId={nodeId}
+                />
+              );
+            })}
         </VariantsList>
       )}
     </>

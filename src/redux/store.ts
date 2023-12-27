@@ -15,13 +15,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { nodeReducer } from './sliceNodes';
 
 const persistConfig = {
-  key: 'nodes',
+  key: 'node',
   storage,
 };
 
 const store = configureStore({
   reducer: {
-    nodes: persistReducer(persistConfig, nodeReducer),
+    node: persistReducer(persistConfig, nodeReducer),
   },
  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
