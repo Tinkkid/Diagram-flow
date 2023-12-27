@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Handle, Position } from 'reactflow';
+import { RectangleInsideNode, WrapperCustomNode } from './CustomNode.styled';
+import CustomButton from '../CustomButton/CustomButton';
 
 
 const CustomNode = () => {
@@ -11,14 +13,10 @@ const CustomNode = () => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div>
-        <div></div>
-        <button onClick={handleToggle}>Варіант</button>
-           {isOpen && <ul>
-              <li>Варіант 1</li>
-              <li>Варіант 2</li>
-           </ul>}
-      </div>
+      <WrapperCustomNode>
+        <RectangleInsideNode></RectangleInsideNode>
+           <CustomButton handleToggle={handleToggle} isOpen={isOpen} />
+      </WrapperCustomNode>
       <Handle type="source" position={Position.Bottom} />
     </>
   );

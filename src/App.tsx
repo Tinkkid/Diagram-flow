@@ -1,7 +1,9 @@
 import './App.css'
 import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
-import CustomNode from './components/CustomNode/CustomNode.jsx';
+
+import CustomNode from './components/CustomNode/CustomNode.jsx'
+
 
 function App() {
 
