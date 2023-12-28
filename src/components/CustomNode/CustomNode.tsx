@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { Handle, Position, useNodeId } from 'reactflow';
 import { useSelector } from 'react-redux';
 import { selectNodes } from '../../redux/selectorsNodes';
@@ -6,23 +6,51 @@ import { selectNodes } from '../../redux/selectorsNodes';
 import { RectangleInsideNode, WrapperCustomNode } from './CustomNode.styled';
 import CustomButton from '../CustomButton/CustomButton';
 
-
 export const CustomNode = () => {
   const nodeId = useNodeId();
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const nodes = useSelector(selectNodes);
-  // const firstEdgeColor = { backgroundColor: '#ADB5BD' };
   const firstNode = nodes[0].id === nodeId;
+  const nextNode = nodes[nodes.length - 1].id === nodeId;
+  const stylingFirstNode = {
+    backgroundColor: 'transparent',
+    width: '1px',
+    border: 'none',
+  };
 
-   const handleToggle = () => {
-      setIsOpen(!isOpen)
-   }
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handlePosition = firstNode ? Position.Bottom : Position.Right;
+  const handleStyle = nextNode
+    ? {
+        backgroundColor: 'transparent',
+        width: '1px',
+        border: 'none',
+      }
+    : {
+        backgroundColor: '#ADB5BD',
+        width: '1px',
+        border: 'none',
+      };
+  const sourceStyle =
+    handlePosition === Position.Right && !firstNode
+      ? {
+          top: 110,
+          ...handleStyle,
+        }
+      : {
+          top: '100%',
+          ...handleStyle,
+        };
+
   return (
     <>
       <Handle
         type="target"
         position={Position.Top}
-        style={{ backgroundColor: 'transparent', width: '1px', border: 'none' }}
+        style={firstNode ? stylingFirstNode : handleStyle}
       />
       <WrapperCustomNode>
         <RectangleInsideNode></RectangleInsideNode>
@@ -32,13 +60,7 @@ export const CustomNode = () => {
           setIsOpen={setIsOpen}
         />
       </WrapperCustomNode>
-      <Handle
-        type="source"
-        position={firstNode ? Position.Bottom : Position.Right}
-        style={{ backgroundColor: firstNode ? 'transparent' : '#ADB5BD', top: firstNode ? 0 : 110 }}
-      />
-
+      <Handle type="source" position={handlePosition} style={sourceStyle} />
     </>
   );
-}
-
+};

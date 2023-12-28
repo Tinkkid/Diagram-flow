@@ -15,7 +15,3 @@ input {
   padding-block: 0;
   padding-inline: 0;
 }
-
-.react-flow__edge-path {
-  color: red;
-}
