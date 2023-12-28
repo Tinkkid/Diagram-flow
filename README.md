@@ -1,11 +1,12 @@
 # Diagram flow
 Diagram flow - its react application with nodes and edges.
 ## Feauture
-- When you click on the button, a drop-down list of variants appears.
-- When choosing a variant, the next node appears, which is connected to the previous one in a certain way, the actions are repeated several times.
-- The button text changes to text with the selected option. 
-- When rebooting the page - all values should be saved.
-- The values will change dynamically if another option is selected. When you click again on the selected option, the next node is deleted.
+- Clicking on the button reveals a dropdown list of variants.
+- Selecting a variant triggers the appearance of the next node, connected to the previous one in a specific way. This action can be repeated multiple times.
+- The button text updates to reflect the selected option.
+- All values are persisted even when the page is reloaded.
+- Values dynamically change if another option is selected. Clicking again on the selected option removes the next node.
+
 
 <span>
 <img src="./public/screen.png" width="400" title="screen">
@@ -40,4 +41,4 @@ npm run dev
 4. Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
 
 ## Live page
-Open page - use link [Diagram Flow]()
+Deploy on Vercel. Open page - use link [Diagram Flow]()
