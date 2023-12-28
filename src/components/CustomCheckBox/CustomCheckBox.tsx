@@ -1,35 +1,50 @@
-import { FC } from 'react';
-
-import { useDispatch } from 'react-redux';
-import { getNewNode } from '../../redux/sliceNodes';
+import { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getNewNode, removeNode } from '../../redux/sliceNodes';
 import {
   CheckBox,
   VariantItem,
   Label,
   TextLabel,
 } from './CustomCheckBox.styled';
+import { selectSelectedVariants } from '../../redux/selectorsNodes';
 
 interface CustomCheckBoxProps {
   value: number | string;
-  textSelectedVariant: string;
-  setTextSelectedVariant: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   nodeId: string | null;
 }
 
 const CustomCheckBox: FC<CustomCheckBoxProps> = ({
   value,
-  textSelectedVariant,
-  setTextSelectedVariant,
   setIsOpen,
   nodeId,
 }) => {
   const dispatch = useDispatch();
+  const selectedVariants = useSelector(selectSelectedVariants);
+  const isChecked = selectedVariants.some(
+    (    variant: { nodeId: string | null; value: number; }) => variant.nodeId === nodeId && variant.value === Number(value)
+  );
+
+  useEffect(() => {
+    if (nodeId) {
+      if (isChecked) {
+        localStorage.setItem(`${nodeId}-${value}`, 'checked');
+      } else {
+        localStorage.removeItem(`${nodeId}-${value}`);
+      }
+    }
+  }, [isChecked, nodeId, value]);
 
   const handleChange = () => {
-    if (nodeId) {
-      setIsOpen(false);
-      setTextSelectedVariant(value.toString());
+    if (setIsOpen && nodeId) {
+      setIsOpen(prev => !prev);
+      localStorage.setItem(`${nodeId}-isOpen`, JSON.stringify(!setIsOpen));
+    }
+
+    if (isChecked && nodeId) {
+      dispatch(removeNode(nodeId));
+    } else if(nodeId) {
       dispatch(getNewNode({ nodeId, value: Number(value) }));
     }
   };
@@ -39,12 +54,12 @@ const CustomCheckBox: FC<CustomCheckBoxProps> = ({
 
   return (
     <VariantItem>
-      <Label >
-        <CheckBox         
+      <Label>
+        <CheckBox
           type="checkbox"
           value={value}
           onChange={handleChange}
-          checked={value.toString() === textSelectedVariant}
+          checked={isChecked}
         />
         <TextLabel>{labelText}</TextLabel>
       </Label>

@@ -24,12 +24,11 @@ interface Variant {
 
 const CustomButton: FC<CustomButtonProps> = ({ isOpen, setIsOpen }) => {
   const nodeId = useNodeId();
-  const [textSelectedVariant, setTextSelectedVariant] =
-    useState<string>('Вибрати значення');
   const [textBtn, setTextBtn] = useState<string>('Вибрати значення');
   const selectedVariants = useSelector(selectSelectedVariants);
   const variants: number[] = useSelector(selectVariants)[Number(nodeId) - 1];
   const valueSelectedVariants = '';
+  const textSelectedVariant = 'Вибрати значення'
 
   useEffect(() => {
     const lastNodeIndex = selectedVariants.findIndex(
@@ -71,8 +70,6 @@ const CustomButton: FC<CustomButtonProps> = ({ isOpen, setIsOpen }) => {
                 <CustomCheckBox
                   key={item}
                   value={item}
-                  textSelectedVariant={textSelectedVariant}
-                  setTextSelectedVariant={setTextSelectedVariant}
                   setIsOpen={setIsOpen}
                   nodeId={nodeId}
                 />

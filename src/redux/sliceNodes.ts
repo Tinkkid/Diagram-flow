@@ -1,37 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MarkerType } from 'reactflow';
-
-interface Position {
-  x: number;
-  y: number;
-}
-
-interface Node {
-  id: string;
-  type: string;
-  position: Position;
-  zIndex: number;
-}
-
-interface Edge {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  markerEnd: { type: MarkerType.Arrow };
-}
-
-interface Variant {
-  nodeId: string;
-  value: number;
-}
-
-interface NodeState {
-  nodes: Node[];
-  edges: Edge[];
-  selectedVariants: Variant[];
-  variants: number[][];
-}
+import { Node, Edge, NodeState } from './types';
 
 const initialNodes: Node[] = [
   { id: '1', type: 'CustomNode', position: { x: 50, y: 50 }, zIndex: 1000 },
@@ -55,9 +24,8 @@ export const nodeSlice = createSlice({
   reducers: {
     getNewNode(
       state,
-      action: PayloadAction<{ nodeId: string; value: number }>
+      { payload: { nodeId, value } }: PayloadAction<{ nodeId: string; value: number }>
     ) {
-      const { nodeId, value } = action.payload;
       const nextNodeId = `${Number(nodeId) + 1}`;
       const nextNodeIndex = state.nodes.findIndex(
         node => node.id === nextNodeId
@@ -89,12 +57,19 @@ export const nodeSlice = createSlice({
         state.selectedVariants.push({ nodeId, value });
         return;
       }
-
       state.selectedVariants[nextNodeIndex - 1].value = value;
+    },
+    removeNode(state, action: PayloadAction<string>) {
+      const removedNodeIndex = state.nodes.findIndex(
+        node => node.id === action.payload
+      );
+        state.edges = state.edges.slice(0, removedNodeIndex);
+        state.nodes = state.nodes.slice(0, removedNodeIndex + 1);
+        state.selectedVariants = state.selectedVariants.slice(0, removedNodeIndex);
     },
   },
 });
 
-export const { getNewNode } = nodeSlice.actions;
+export const { getNewNode, removeNode } = nodeSlice.actions;
 
 export const nodeReducer = nodeSlice.reducer;
